@@ -22,17 +22,6 @@
             "featureVersion": "0.1"
         },
         {
-            "id": "dht11",
-            "model": "DHT11",
-            "driver": "dht11",
-            "inputs": {
-                "gpio": {
-                    "type": "gpio",
-                    "reserve": "gpio-18/gpio"
-                }
-            }
-        },
-        {
             "id": "lcd1602-02",
             "model": "LCD1602-02",
             "driver": "lcd1602-pcf8574a-hd44780",

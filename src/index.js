@@ -9,39 +9,17 @@ var currentTemperature = null;
 var currentHumidity = null;
 var currentUser = 0;
 
-function updateLcd(dht) {
-    return Promise.all([
-        new Promise(function(resolve, reject) {
-            // 温度
-            dht.getTemperature(function(error, value) {
-                if (error) reject(error);
-                resolve(value);
-            });
-        }),
-        new Promise(function(resolve, reject) {
-            // 湿度
-            dht.getRelativeHumidity(function(error, value) {
-                if (error) reject(error);
-                resolve(value);
-            });
-        }),
-    ]).then(function(values) {
-        currentTemperature = values[0];
-        currentHumidity = values[1];
-        menuKit.show([
-            {
-                text: 'User ' + currentUser,
-                value: currentUser,
-            },
-            {
-                text: 'Temperat ' + values[0] + 'C',
-                value: values[0],
-            },
-            {
-                text: 'Humidity ' + values[1] + '%',
-                value: values[1],
-            },
-        ]);
+function updateLcd() {
+    return new Promise(function(resolve) {
+        resolve(
+            menuKit.show([
+                {
+                    text: 'User ' + currentUser,
+                    value: currentUser,
+                    items: [],
+                },
+            ])
+        );
     });
 }
 
@@ -55,20 +33,12 @@ $.ready(function(error) {
     var lcd = $('#lcd1602-02');
     var button = $('#button');
     var ledGreen = $('#led-g');
-    var dht = $('#dht11');
     var watcher1 = $('#watcher-one');
     var watcher2 = $('#watcher-two');
 
     button.on('push', function() {
         ledGreen.turnOn(function() {
-            restClient.pushWechat(
-                '实时数据',
-                '当前房间温度是' +
-                    currentTemperature +
-                    '摄氏度,湿度是' +
-                    currentHumidity +
-                    '%\n'
-            );
+            restClient.pushWechat('实时数据', '当前人数是' + currentUser + '人\n');
         });
     });
 
@@ -101,10 +71,10 @@ $.ready(function(error) {
     menuKit.init(lcd, button);
 
     setInterval(function() {
-        updateLcd(dht).catch(function(reason) {
+        updateLcd().catch(function(reason) {
             console.error(reason);
         });
-    }, 2000);
+    }, 1100);
 
     setInterval(function() {
         if (near1 && near2 && away1 && away2) {
@@ -113,6 +83,9 @@ $.ready(function(error) {
             } else {
                 currentUser -= 1;
             }
+            // if (currentUser < 0) {
+            //     currentUser = 0;
+            // }
         }
         // reset watchers
         near1 = null;
