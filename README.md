@@ -4,13 +4,15 @@
 
 - BUtton
 - LCD1602
-- DHT11
+- DHT11 (关闭)
+- SR501 (关闭)
+- proximity
 
 ## Features
 
 - Temperature and humidity realtime monitor
 - Upload sensor data on press button
-- Use [Menu](https://rap.ruff.io/raps/menu) and [Promise]() modules
+- Use [Menu](https://rap.ruff.io/raps/menu) and [Promise](https://rap.ruff.io/raps/promise) modules
 
 ## Usage
 

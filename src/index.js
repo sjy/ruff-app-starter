@@ -8,13 +8,19 @@ var menuKit = require('./menu');
 var currentTemperature = null;
 var currentHumidity = null;
 var currentUser = 0;
+var sr501State = null;
 
 function updateLcd() {
     return new Promise(function(resolve) {
         resolve(
             menuKit.show([
+                // {
+                //     text: 'W0: ' + sr501State,
+                //     value: sr501State,
+                //     items: [],
+                // },
                 {
-                    text: 'User ' + currentUser,
+                    text: 'W1: ' + currentUser,
                     value: currentUser,
                     items: [],
                 },
